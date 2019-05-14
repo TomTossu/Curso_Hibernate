@@ -1,0 +1,21 @@
+package educacionit.configuration;
+
+import org.hibernate.SessionFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan({"educacionit", "educacionit.services"})
+public class Configuracion {
+    @Bean(name="obtenerSessionFactory")
+    public SessionFactory obtenerSessionFactory() {
+        System.out.println("Levanta session Factory");
+        HibernateConfiguration hibernateConfiguration = new 
+            HibernateConfiguration();
+        
+        sessFac = hibernateConfiguration.configure();
+        
+        return sessFac;
+    }
+}

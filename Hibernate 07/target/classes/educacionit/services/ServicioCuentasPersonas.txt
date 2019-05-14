@@ -1,0 +1,48 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package educacionit.services;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service("ServicioCuentasPersonas")
+public class ServicioCuentasPersonas {
+
+    @Autowired
+    SessionFactory sessFac;
+    
+    public ServicioCuentasPersonas() {
+        System.out.println("ServicioCuentasPersonas::constructor");
+    }
+    public void seleccionarPersonas() {
+        System.out.println("voy a realizar el open session");
+        Session session = sessFac.openSession();
+    
+        Query q = session.createQuery("select distinct p from Persona p join fetch p.cuentas c ");
+        
+        for (Object item : q.list()) {
+            Persona p = (Persona)item;
+            mostrarPersona(p);
+        }
+        
+        session.close();
+    }
+    public void mostrarPersona(Persona p) {
+        System.out.println("P E R S O N A");
+        System.out.println(p.id);
+        System.out.println(p.nombre);
+        if (p.cuentas != null) {
+            for (Cuenta c : p.cuentas) {
+                System.out.println("   C U E N T A");
+                System.out.println("   " + c.id );
+                System.out.println("   " + c.descripcion );
+            }
+        }
+    }
+}
